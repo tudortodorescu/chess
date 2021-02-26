@@ -24,15 +24,12 @@
 .piece-box.black-box {
     background: gray;
 }
-.piece-box:hover {
+
+.piece-box.piece-selected {
     background: yellow;
     cursor: pointer;
 }
-
-.piece-selected {
-    background: yellow;
-}
-.piece-not-allowed {
+.piece-box.piece-not-allowed {
     background: coral;
 }
 
