@@ -11,7 +11,6 @@
     color: white;
     font-size: 8px;
     box-sizing: border-box;
-    border: 1px solid white;
     position: relative;
     display: flex;
     justify-content: center;
@@ -34,12 +33,14 @@
 }
 
 img.piece {
-    width: 35px;    
-    height: 35px;
+    width: 40px;    
+    height: 40px;
 }
 .position-text {
     position: absolute;
-    bottom: 1px;
-    right: 1px;
-    color: #333;
+    bottom: 0px;
+    right: 0px;
+    font-size: 7px;
+    color: #444;
+    opacity: 0.4;
 }
