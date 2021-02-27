@@ -73,8 +73,8 @@ export default {
                 delete this.determinations[ pieceBoxPosition ][ determinationPosition ]
             }
             else if ( 
-                isWhite && !isBlackPieceDet ||
-                !isWhite && !isWhitePieceDet
+                isWhite && isWhitePieceDet ||
+                !isWhite && isBlackPieceDet
             ) {
                 delete this.determinations[ pieceBoxPosition ][ determinationPosition ]
             }

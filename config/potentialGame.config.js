@@ -24,7 +24,7 @@ export const potentialGame = {
     'e1': 'white_king',
     'f1': 'white_bishop',
     'g1': 'white_knight',
-    'h1': 'white_rook',
+    'g4': 'white_rook',
     'a2': 'white_pawn',
     'b2': 'white_pawn',
     'c3': 'white_pawn',

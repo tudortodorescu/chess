@@ -1,6 +1,7 @@
 
 export default {
-    determineKnight() {
+    determineKnight({ isWhitePiece, pieceBoxPosition }) {
         
-    }
+    },
+
 }
