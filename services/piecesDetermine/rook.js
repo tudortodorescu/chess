@@ -5,18 +5,10 @@ import { playerTurn } from '../playerTurn.service.js'
 
 export default {
     determineRook({ isWhitePiece, pieceBoxPosition }) {
-        this.determinations[ pieceBoxPosition ] = {}
-
-        if ( isWhitePiece ) { 
-            this.determineRookWhiteBlack( true, { pieceBoxPosition })
-            this.cleanDetermineWhiteBlackRook( true, { pieceBoxPosition })
-        } else {
-            this.determineRookWhiteBlack( false, { pieceBoxPosition })
-            this.cleanDetermineWhiteBlackRook( false, { pieceBoxPosition })
-        }
+        this.determineRookWhiteBlack( isWhitePiece, { pieceBoxPosition })
+        this.cleanDetermineWhiteBlackRook( isWhitePiece, { pieceBoxPosition })
     },
-
-    determineRookWhiteBlack( isWhite = true, { pieceBoxPosition }) {
+    determineRookWhiteBlack( isWhitePiece = true, { pieceBoxPosition }) {
         const col = +alphPosIn[ pieceBoxPosition[ 0 ] ]
         const row = +pieceBoxPosition[ 1 ]
 
@@ -36,36 +28,36 @@ export default {
 
     ////////////////////////////////////
 
-    cleanDetermineWhiteBlackRook( isWhite = true, { pieceBoxPosition }) {
+    cleanDetermineWhiteBlackRook( isWhitePiece = true, { pieceBoxPosition }) {
         const col = +alphPosIn[ pieceBoxPosition[ 0 ] ]
         const row = +pieceBoxPosition[ 1 ]
 
         let shouldDeleteDeterminations = { value: false }
         for ( let detRow = row + 1; detRow <= 8; detRow++ ) {
             const determinationPosition = `${alphPosOut[ col ]}${ detRow }`
-            this.cleanIncomingPiecesRook({ isWhite, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) 
+            this.cleanIncomingPiecesRook({ isWhitePiece, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) 
         }
 
         shouldDeleteDeterminations = { value: false }
         for ( let detRow = row - 1; detRow >= 1; detRow-- ) {
             const determinationPosition = `${alphPosOut[ col ]}${ detRow }`
-            this.cleanIncomingPiecesRook({ isWhite, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) 
+            this.cleanIncomingPiecesRook({ isWhitePiece, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) 
         }
 
         shouldDeleteDeterminations = { value: false }
         for ( let detCol = col + 1; detCol <= 8; detCol++ ) {
             const determinationPosition = `${alphPosOut[ detCol ]}${ row }`
-            this.cleanIncomingPiecesRook({ isWhite, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) 
+            this.cleanIncomingPiecesRook({ isWhitePiece, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) 
         }
 
         shouldDeleteDeterminations = { value: false }
         for ( let detCol = col - 1; detCol >= 1; detCol-- ) {
             const determinationPosition = `${alphPosOut[ detCol ]}${ row }`
-            this.cleanIncomingPiecesRook({ isWhite, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) 
+            this.cleanIncomingPiecesRook({ isWhitePiece, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) 
         }
         
     },
-    cleanIncomingPiecesRook({ isWhite, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) {
+    cleanIncomingPiecesRook({ isWhitePiece, shouldDeleteDeterminations, pieceBoxPosition, determinationPosition }) {
         if ( shouldDeleteDeterminations.value ) {
             delete this.determinations[ pieceBoxPosition ][ determinationPosition ]
             return
@@ -81,8 +73,8 @@ export default {
         shouldDeleteDeterminations.value = true
 
         if ( 
-            isWhite && isBlackPieceDet ||
-            !isWhite && isWhitePieceDet
+            isWhitePiece && isBlackPieceDet ||
+            !isWhitePiece && isWhitePieceDet
         ) { 
             return
         }

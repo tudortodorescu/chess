@@ -1,9 +1,13 @@
 import pawn from "./piecesDetermine/pawn.js"
 import knight from "./piecesDetermine/knight.js"
 import rook from "./piecesDetermine/rook.js"
+import bishop from "./piecesDetermine/bishop.js"
+import queen from "./piecesDetermine/queen.js"
 import { $, $$ } from '../utils/utils.js'
 import { chessConfig } from '../config/chessConfig.config.js'
 import { playerTurn } from '../services/playerTurn.service.js'
+import king from "./piecesDetermine/king.js"
+import knightKingHelpers from "./piecesDetermine/helpers/knightKing.helpers.js"
 
 export const piecesDetermine = {
     determinations: {},
@@ -20,6 +24,8 @@ export const piecesDetermine = {
             const isWhitePiece = playerTurn.isWhitePiece( pieceType )
             const pieceSingleType = pieceType.replace( 'white_', '' ).replace( 'black_', '' )
             
+            this.determinations[ pieceBoxPosition ] = {}
+
             this[ pieceDetermineConfig[ pieceSingleType ] ]?.({ 
                 pieceBoxElement, 
                 pieceElement, 
@@ -54,15 +60,22 @@ export const piecesDetermine = {
         )
     },
 
+    ...knightKingHelpers,
     ...pawn,
     ...knight,
     ...rook,
+    ...bishop,
+    ...queen,
+    ...king,
 }
 
 const pieceDetermineConfig = {
     'pawn': 'determinePawn',
     'knight': 'determineKnight',
     'rook': 'determineRook',
+    'bishop': 'determineBishop',
+    'queen': 'determineQueen',
+    'king': 'determineKing',
 }
 
 window.piecesDetermine = piecesDetermine

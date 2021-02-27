@@ -60,5 +60,5 @@ img.piece {
     font-size: 12px;
     color: #444;
     opacity: 0.9;
-    /* display: none; */
+    display: none;
 }
