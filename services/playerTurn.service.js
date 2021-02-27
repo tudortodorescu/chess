@@ -43,3 +43,5 @@ export const playerTurn = {
         return !!pieceType.match(/black_/)
     }
 }
+
+window.playerTurn = playerTurn

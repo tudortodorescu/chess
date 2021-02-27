@@ -1,4 +1,5 @@
 import { playerTurn } from '../../../services/playerTurn.service.js'
+import { piecesDetermine } from '../../piecesDetermine.service.js'
 
 export default {
     handlePieceMouseenter({ pieceBoxElement, pieceBoxPosition, pieceElement, pieceType }) {
@@ -6,7 +7,10 @@ export default {
             this.isPieceSelected() && 
             this.isNotOnPieceSelected( pieceBoxPosition )
         ) {
-            /** handle position available to move */
+            const hasPiecePotential = piecesDetermine.hasPiecePotential( this.pieceSelectedPosition, pieceBoxPosition )
+            if ( hasPiecePotential ) {
+                this.setPointer( pieceBoxElement )
+            }
             return
         }
 

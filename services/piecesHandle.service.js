@@ -2,22 +2,22 @@ import handlePieceEventsMethods from './piecesHandle/handlePieceEvents.methods.j
 import handlePieceStatesMethods from './piecesHandle/handlePieceStates.methods.js'
 
 export const piecesHandle = {
-    pieceSelected: null,
+    pieceSelectedPosition: null,
 
     isPieceSelected() {
-        return !!this.pieceSelected
+        return !!this.pieceSelectedPosition
     },
-    changePieceSelected( pieceSelected ) {
-        this.pieceSelected = pieceSelected
+    changePieceSelected( pieceSelectedPosition ) {
+        this.pieceSelectedPosition = pieceSelectedPosition
     },
     resetPieceSelected() {
-        this.pieceSelected = null
+        this.pieceSelectedPosition = null
     },
     isOnPieceSelected( pieceBoxPosition ) {
-        return pieceBoxPosition === this.pieceSelected 
+        return pieceBoxPosition === this.pieceSelectedPosition 
     },
     isNotOnPieceSelected( pieceBoxPosition ) {
-        return pieceBoxPosition !== this.pieceSelected
+        return pieceBoxPosition !== this.pieceSelectedPosition
     },
 
     ///////////////////////

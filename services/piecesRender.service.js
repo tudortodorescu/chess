@@ -7,6 +7,8 @@ import { piecesDetermine } from '../services/piecesDetermine.service.js'
 import { $, $$ } from '../utils/utils.js'
 
 export const piecesRender = {
+    piecesEventListeners: {},
+
     renderPieces() {
         const gameSetup = chessConfig.useInitialGame ? initialGame : potentialGame
 
@@ -55,15 +57,30 @@ export const piecesRender = {
                 pieceType
             }
 
-            pieceBoxElement.addEventListener( 'mouseenter', _ => {
-                piecesHandle.handlePieceMouseenter( handleParams )
-            })
-            pieceBoxElement.addEventListener( 'mouseleave', _ => {
-                piecesHandle.handlePieceMouseleave( handleParams )
-            })
-            pieceBoxElement.addEventListener( 'click', _ => {
-                piecesHandle.handlePieceClick( handleParams )
-            })
+            this.piecesEventListeners[ pieceBoxPosition ] = {
+                'mouseenter': _ => {
+                    piecesHandle.handlePieceMouseenter( handleParams )
+                },
+                'mouseleave': _ => {
+                    piecesHandle.handlePieceMouseleave( handleParams )
+                },
+                'click': _ => {
+                    piecesHandle.handlePieceClick( handleParams )
+                },
+            }
+
+            pieceBoxElement.addEventListener( 'mouseenter', this.piecesEventListeners[ pieceBoxPosition ][ 'mouseenter' ])
+            pieceBoxElement.addEventListener( 'mouseleave', this.piecesEventListeners[ pieceBoxPosition ][ 'mouseleave' ])
+            pieceBoxElement.addEventListener( 'click', this.piecesEventListeners[ pieceBoxPosition ][ 'click' ])
+        })
+    },
+    resetPiecesBoxListeners() {
+        $$( chessConfig.chessPieceBoxSelector ).forEach( pieceBoxElement => {
+            const pieceBoxPosition = pieceBoxElement.getAttribute( 'id' )
+
+            pieceBoxElement.removeEventListener( 'mouseenter', this.piecesEventListeners[ pieceBoxPosition ][ 'mouseenter' ])
+            pieceBoxElement.removeEventListener( 'mouseleave', this.piecesEventListeners[ pieceBoxPosition ][ 'mouseleave' ])
+            pieceBoxElement.removeEventListener( 'click', this.piecesEventListeners[ pieceBoxPosition ][ 'click' ])
         })
     },
     piecesDetermine() {
@@ -71,4 +88,4 @@ export const piecesRender = {
     }
 }
 
-window.piecesDetermine = piecesDetermine
+window.piecesRender = piecesRender

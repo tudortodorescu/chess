@@ -1,10 +1,10 @@
-import { playerTurn } from '../../../services/playerTurn.service.js'
 
 export default {
-    handlePieceMouseleave({ pieceBoxElement, pieceBoxPosition, pieceElement, pieceType }) {
+    handlePieceMouseleave({ pieceBoxElement, pieceBoxPosition }) {
         if ( this.isNotOnPieceSelected( pieceBoxPosition ) ) {
             this.removeSelected( pieceBoxElement )
             this.removeNotAllowed( pieceBoxElement )
+            this.removePointer( pieceBoxElement )
         }
     },
 }

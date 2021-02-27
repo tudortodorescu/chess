@@ -4,45 +4,47 @@ import { $ } from '../../utils/utils.js'
 import { playerTurn } from '../playerTurn.service.js'
 
 export default {
-    determinePawn({ pieceBoxElement, pieceElement, pieceType, isWhitePiece, pieceBoxPosition }) {
+    determinePawn({ isWhitePiece, pieceBoxPosition }) {
         this.determinations[ pieceBoxPosition ] = {}
 
         if ( isWhitePiece ) { 
-            this.determineWhitePawn({ pieceBoxPosition }) 
-            this.cleanDetermineWhitePawn({ pieceBoxPosition })
+            this.determinePawnWhiteBlack( true, { pieceBoxPosition })
+            this.cleanDetermineWhiteBlackPawn( true, { pieceBoxPosition })
         } else {
-            this.determineBlackPawn({ pieceBoxPosition })
-            this.cleanDetermineWBlackPawn({ pieceBoxPosition })
+            this.determinePawnWhiteBlack( false, { pieceBoxPosition })
+            this.cleanDetermineWhiteBlackPawn( false, { pieceBoxPosition })
         }
     },
 
-    determineWhitePawn({ pieceBoxPosition }) {
+    ///////////////////////
+
+    determinePawnWhiteBlack(isWhite = true, { pieceBoxPosition }) {
         const col = +alphPosIn[ pieceBoxPosition[ 0 ] ]
         const row = +pieceBoxPosition[ 1 ]
     
-        if ( row === 8 ) return
+        if ( row === ( isWhite ? 8 : 1 ) ) return
 
-        this.determinations[ pieceBoxPosition ][ `${alphPosOut[ col ]}${ row + 1 }` ] = true
+        const determination0 = `${alphPosOut[ col ]}${ row + ( isWhite ? 1 : -1 ) }`
+        this.determinations[ pieceBoxPosition ][ determination0 ] = true
 
-        if ( row === 2) {
-            this.determinations[ pieceBoxPosition ][ `${alphPosOut[ col ]}4` ] = true
-        }
-
-        const potentialpos1 = col - 1
-        const potentialpos2 = col + 1
-
-        if  (potentialpos1 > 0 && potentialpos1 < 9) {
-            const determination1 = `${ alphPosOut[ potentialpos1 ] }${ row + 1 }`
+        if ( row === ( isWhite ? 2 : 7 ) ) {
+            const determination1 = `${alphPosOut[ col ]}${ isWhite ? 4 : 5 }`
             this.determinations[ pieceBoxPosition ][ determination1 ] = true
         }
+
+        const potentialpos2 = col - 1
+        const potentialpos3 = col + 1
+
         if  (potentialpos2 > 0 && potentialpos2 < 9) {
-            const determination2 = `${ alphPosOut[ potentialpos2 ] }${ row + 1 }`
+            const determination2 = `${ alphPosOut[ potentialpos2 ] }${ row + ( isWhite ? 1 : -1 ) }`
             this.determinations[ pieceBoxPosition ][ determination2 ] = true
         }
+        if  (potentialpos3 > 0 && potentialpos3 < 9) {
+            const determination3 = `${ alphPosOut[ potentialpos3 ] }${ row + ( isWhite ? 1 : -1 ) }`
+            this.determinations[ pieceBoxPosition ][ determination3 ] = true
+        }
     },
-    cleanDetermineWhitePawn({ pieceBoxPosition }) {
-        // if ( pieceBoxPosition !== 'd2' ) return
-
+    cleanDetermineWhiteBlackPawn(isWhite = true, { pieceBoxPosition }) {
         const col = +alphPosIn[ pieceBoxPosition[ 0 ] ]
         const row = +pieceBoxPosition[ 1 ]
 
@@ -60,26 +62,22 @@ export default {
             
             const determinationPieceType = determinationPiece.getAttribute( 'piece-type')
             const isBlackPieceDet = playerTurn.isBlackPiece( determinationPieceType )
+            const isWhitePieceDet = playerTurn.isWhitePiece( determinationPieceType )
                 
             if ( col === detCol ) {
-                if (detRow === 3 ) {
-                    delete this.determinations[ pieceBoxPosition ][ `${ determinationPosition[ 0 ] }4` ]
+                if (detRow === ( isWhite ? 3 : 6 ) ) {
+                    const determination0 = `${ determinationPosition[ 0 ] }${ isWhite ? 4 : 5 }`
+                    delete this.determinations[ pieceBoxPosition ][ determination0 ]
                 }
 
                 delete this.determinations[ pieceBoxPosition ][ determinationPosition ]
             }
-            else if ( !isBlackPieceDet ) {
+            else if ( 
+                isWhite && !isBlackPieceDet ||
+                !isWhite && !isWhitePieceDet
+            ) {
                 delete this.determinations[ pieceBoxPosition ][ determinationPosition ]
             }
-
-            // console.log({ determinationPieceType, determinationPosition })
         }
-    },
-
-    determineBlackPawn({ pieceBoxPosition }) {
-        
-    },
-    cleanDetermineWBlackPawn({ pieceBoxPosition }) {
-
     }
 }

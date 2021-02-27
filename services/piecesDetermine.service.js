@@ -1,14 +1,16 @@
 import pawn from "./piecesDetermine/pawn.js"
 import knight from "./piecesDetermine/knight.js"
 import rook from "./piecesDetermine/rook.js"
-import { $, $$, ucase } from '../utils/utils.js'
+import { $, $$ } from '../utils/utils.js'
 import { chessConfig } from '../config/chessConfig.config.js'
 import { playerTurn } from '../services/playerTurn.service.js'
 
 export const piecesDetermine = {
     determinations: {},
-
+    
     determine() {
+        this.resetDeterminations()
+        
         for ( const pieceBoxElement of $$( chessConfig.chessPieceBoxSelector ) ) {
             const pieceElement = pieceBoxElement.querySelector( chessConfig.chessPieceSelector )
             if ( !pieceElement ) continue
@@ -28,6 +30,11 @@ export const piecesDetermine = {
         }
     },
 
+    //////////////////////////
+
+    resetDeterminations() {
+        this.determinations = {}
+    },
     itereateDetermine( pieceBoxPosition, callbackFn ) {
         const determinationPositions = this.determinations[ pieceBoxPosition ]
         if ( !determinationPositions || !Object.keys( determinationPositions ).length ) return
@@ -36,6 +43,15 @@ export const piecesDetermine = {
             const pieceBoxElement = $( `#${ determinationPosition }` )
             callbackFn( pieceBoxElement )
         }
+    },
+    hasPiecePotential( pieceBoxPosition, determinationPosition ) {
+        return this.determinations[ pieceBoxPosition ]?.[ determinationPosition ] ?? false
+    },
+    hasPiecePotentials( pieceBoxPosition ) {
+        return !( 
+            !this.determinations[ pieceBoxPosition ] ||
+            !Object.keys( this.determinations[ pieceBoxPosition ] ).length
+        )
     },
 
     ...pawn,
@@ -48,3 +64,5 @@ const pieceDetermineConfig = {
     'knight': 'determineKnight',
     'rook': 'determineRook',
 }
+
+window.piecesDetermine = piecesDetermine
