@@ -31,6 +31,13 @@
 .piece-box.piece-not-allowed {
     background: coral;
 }
+.piece-box.piece-ready {
+    background: greenyellow;
+}
+.piece-box.piece-potential {
+    background: lightskyblue;
+    border: 1px solid white;
+}
 
 img.piece {
     width: 40px;    
@@ -40,7 +47,7 @@ img.piece {
     position: absolute;
     bottom: 0px;
     right: 0px;
-    font-size: 7px;
+    font-size: 12px;
     color: #444;
-    opacity: 0.4;
+    opacity: 0.9;
 }

@@ -1,6 +1,8 @@
 
 export const chessConfig = {
     chessTableSelector: '.chess-table',
-    chessPieceSelector: '.piece-box',
-    whitePlaysDown: true
+    chessPieceBoxSelector: '.piece-box',
+    chessPieceSelector: '.piece',
+    whitePlaysDown: true,
+    useInitialGame: false
 }

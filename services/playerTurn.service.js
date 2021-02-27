@@ -2,31 +2,44 @@
 export const playerTurn = {
     whosTurn: 'white',
 
-    get isWhite() {
+    get isWhiteTurn() {
         return this.whosTurn === 'white'
     },
-    get isBlack() {
+    get isBlackTurn() {
         return this.whosTurn === 'black'
     },
 
     changeTurn() {
-        if ( this.isWhite ) {
+        if ( this.isWhiteTurn ) {
             this.whosTurn = 'black'
         }
-        else if ( this.isBlack ) {
+        else if ( this.isBlackTurn ) {
             this.whosTurn = 'white'
         }
     },
     isWrongTurn( pieceType ) {
-        const isPieceWhite = !!pieceType.match(/white_/)
-
-        if ( this.isWhite && !isPieceWhite ) {
+        if ( 
+            this.isWhiteTurn &&
+            this.isBlackPiece( pieceType )
+        ) {
             return true
         }
-        else if ( this.isBlack && isPieceWhite ) {
+        else if ( 
+            this.isBlackTurn &&
+            this.isWhitePiece( pieceType )
+        ) {
             return  true
         }
 
         return false
+    },
+    isRightTurn( pieceType ) {
+        return !this.isWrongTurn( pieceType )
+    },
+    isWhitePiece( pieceType ) {
+        return !!pieceType.match(/white_/)
+    },
+    isBlackPiece( pieceType ) {
+        return !!pieceType.match(/black_/)
     }
 }
