@@ -4,5 +4,5 @@ export const chessConfig = {
     chessPieceBoxSelector: '.piece-box',
     chessPieceSelector: '.piece',
     whitePlaysDown: true,
-    useInitialGame: true
+    useInitialGame: false
 }

@@ -4,7 +4,7 @@ import { potentialGame } from '../config/potentialGame.config.js'
 import { chessConfig } from '../config/chessConfig.config.js'
 import { piecesHandle } from '../services/piecesHandle.service.js'
 import { piecesDetermine } from '../services/piecesDetermine.service.js'
-import { $, $$ } from '../utils/utils.js'
+import { $, $$, $$$ } from '../utils/utils.js'
 
 export const piecesRender = {
     piecesEventListeners: {},
@@ -47,7 +47,7 @@ export const piecesRender = {
     addPiecesBoxListeners() {
         $$( chessConfig.chessPieceBoxSelector ).forEach( pieceBoxElement => {
             const pieceBoxPosition = pieceBoxElement.getAttribute( 'id' )
-            const pieceElement = pieceBoxElement.querySelector( chessConfig.chessPieceSelector )
+            const pieceElement = $$$( pieceBoxElement, chessConfig.chessPieceSelector )
             const pieceType = pieceElement?.getAttribute( 'piece-type' ) ?? null
 
             const handleParams = {

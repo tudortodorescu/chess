@@ -1,6 +1,6 @@
 import { alphPosIn, alphPosOut } from '../../config/alphabetPositions.config.js'
 import { chessConfig } from '../../config/chessConfig.config.js'
-import { $ } from '../../utils/utils.js'
+import { $, $$$ } from '../../utils/utils.js'
 import { playerTurn } from '../playerTurn.service.js'
 
 export default {
@@ -57,7 +57,9 @@ export default {
     shouldStopPosition({ isWhitePiece, determinationPosition }) {
         if ( !$( `#${ determinationPosition }` ) ) return 1
 
-        const determinationPiece = $( `#${ determinationPosition }` ).querySelector( chessConfig.chessPieceSelector )
+        const determinationPieceBoxElement = $( `#${ determinationPosition }` )
+        const determinationPiece = $$$(determinationPieceBoxElement, chessConfig.chessPieceSelector )
+        
         if ( !determinationPiece ) return 0
 
         const determinationPieceType = determinationPiece.getAttribute( 'piece-type')

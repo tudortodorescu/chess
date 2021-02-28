@@ -1,6 +1,6 @@
 import { alphPosIn, alphPosOut } from '../../config/alphabetPositions.config.js'
 import { chessConfig } from '../../config/chessConfig.config.js'
-import { $ } from '../../utils/utils.js'
+import { $, $$$ } from '../../utils/utils.js'
 import { playerTurn } from '../playerTurn.service.js'
 
 export default {
@@ -45,7 +45,9 @@ export default {
             const detCol = +alphPosIn[ determinationPosition[ 0 ] ]
             const detRow = +determinationPosition[ 1 ]
 
-            const determinationPiece = $( `#${ determinationPosition }` ).querySelector( chessConfig.chessPieceSelector )
+            const determinationPieceBoxElement = $( `#${ determinationPosition }` )
+            const determinationPiece = $$$( determinationPieceBoxElement, chessConfig.chessPieceSelector )
+            
             if ( !determinationPiece ) {
                 if ( col !== detCol ) {
                     delete this.determinations[ pieceBoxPosition ][ determinationPosition ]

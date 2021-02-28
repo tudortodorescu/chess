@@ -1,6 +1,6 @@
 import { alphPosIn, alphPosOut } from '../../config/alphabetPositions.config.js'
 import { chessConfig } from '../../config/chessConfig.config.js'
-import { $ } from '../../utils/utils.js'
+import { $, $$$ } from '../../utils/utils.js'
 import { playerTurn } from '../playerTurn.service.js'
 
 export default {
@@ -62,8 +62,10 @@ export default {
             delete this.determinations[ pieceBoxPosition ][ determinationPosition ]
             return
         }
+
+        const determinationPieceBoxElement = $( `#${ determinationPosition }` ) 
+        const determinationPiece = $$$( determinationPieceBoxElement, chessConfig.chessPieceSelector )
         
-        const determinationPiece = $( `#${ determinationPosition }` ).querySelector( chessConfig.chessPieceSelector )
         if ( !determinationPiece ) return
 
         const determinationPieceType = determinationPiece.getAttribute( 'piece-type')

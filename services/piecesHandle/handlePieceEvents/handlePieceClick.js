@@ -1,8 +1,6 @@
-import { chessConfig } from '../../../config/chessConfig.config.js'
 import { playerTurn } from '../../../services/playerTurn.service.js'
-import { $ } from '../../../utils/utils.js'
 import { piecesDetermine } from '../../piecesDetermine.service.js'
-import { piecesRender } from '../../piecesRender.service.js'
+import handlePieceMovingHelpers from '../helpers/handlePieceMoving.helpers.js'
 
 export default {
     handlePieceClick({ pieceBoxElement, pieceBoxPosition, pieceElement, pieceType }) {
@@ -52,32 +50,6 @@ export default {
         }
     },
 
-    ////////////////////////
-
-    handleMovingThePiece({ pieceBoxElement, pieceElement }) {
-        if ( pieceElement ) {
-            pieceElement.remove()
-        }
-
-        const pieceBoxElementSelected = $( `#${ this.pieceSelectedPosition }` )
-        const pieceElementSelected = pieceBoxElementSelected.querySelector( chessConfig.chessPieceSelector )
-        pieceBoxElement.append( pieceElementSelected )
-
-        this.removeReady( pieceBoxElementSelected )
-        this.removeSelected( pieceBoxElementSelected )
-        this.removePiecePotentials( this.pieceSelectedPosition )
-        this.removeReady( pieceBoxElementSelected )
-        this.resetPieceSelected()
-        
-        playerTurn.changeTurn()
-        piecesDetermine.determine()
-        piecesRender.resetPiecesBoxListeners()
-        piecesRender.addPiecesBoxListeners()
-
-    },
-
-    ////////////////////////
-
     setPiecePotentials( pieceBoxPosition ) {
         piecesDetermine.itereateDetermine( pieceBoxPosition, this.setPotential )
     },
@@ -86,5 +58,7 @@ export default {
     },
     hasPiecePotentials( pieceBoxPosition ) {
         return piecesDetermine.hasPiecePotentials( pieceBoxPosition )
-    }
+    },
+
+    ...handlePieceMovingHelpers
 }

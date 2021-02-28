@@ -3,11 +3,12 @@ import knight from "./piecesDetermine/knight.js"
 import rook from "./piecesDetermine/rook.js"
 import bishop from "./piecesDetermine/bishop.js"
 import queen from "./piecesDetermine/queen.js"
-import { $, $$ } from '../utils/utils.js'
+import { $, $$, $$$ } from '../utils/utils.js'
 import { chessConfig } from '../config/chessConfig.config.js'
 import { playerTurn } from '../services/playerTurn.service.js'
 import king from "./piecesDetermine/king.js"
 import knightKingHelpers from "./piecesDetermine/helpers/knightKing.helpers.js"
+import { checkMate } from "./checkMate.service.js"
 
 export const piecesDetermine = {
     determinations: {},
@@ -16,7 +17,7 @@ export const piecesDetermine = {
         this.resetDeterminations()
         
         for ( const pieceBoxElement of $$( chessConfig.chessPieceBoxSelector ) ) {
-            const pieceElement = pieceBoxElement.querySelector( chessConfig.chessPieceSelector )
+            const pieceElement = $$$( pieceBoxElement, chessConfig.chessPieceSelector )
             if ( !pieceElement ) continue
             
             const pieceBoxPosition = pieceBoxElement.getAttribute( 'id' )
@@ -34,6 +35,9 @@ export const piecesDetermine = {
                 pieceBoxPosition
             })
         }
+
+        checkMate.cleanKingsUnavailablePositions({ isWhite: true })
+        checkMate.cleanKingsUnavailablePositions({ isWhite: false })
     },
 
     //////////////////////////
