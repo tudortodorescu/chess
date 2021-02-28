@@ -35,15 +35,15 @@ body {
     background: yellow;
     cursor: pointer;
 }
-.piece-box.piece-not-allowed {
-    background: coral;
-}
 .piece-box.piece-ready {
     background: greenyellow;
 }
 .piece-box.piece-potential {
     background: lightskyblue;
     border: 0.1px solid rgb(24, 155, 236);
+}
+.piece-box.piece-not-allowed {
+    background: coral;
 }
 .piece-box.piece-pointer {
     cursor: pointer;
@@ -60,5 +60,4 @@ img.piece {
     font-size: 12px;
     color: #444;
     opacity: 0.9;
-    display: none;
 }

@@ -1,11 +1,23 @@
 import { playerTurn } from '../../../services/playerTurn.service.js'
+import { checkMate } from '../../checkMate.service.js'
 import { piecesDetermine } from '../../piecesDetermine.service.js'
 import handlePieceMovingHelpers from '../helpers/handlePieceMoving.helpers.js'
 
 export default {
     handlePieceClick({ pieceBoxElement, pieceBoxPosition, pieceElement, pieceType }) {
-        const hasPiecePotential = piecesDetermine.hasPiecePotential( this.pieceSelectedPosition, pieceBoxPosition )
+        const { pieceSelectedPosition } = this
+        const hasPiecePotential = piecesDetermine.hasPiecePotential( pieceSelectedPosition, pieceBoxPosition )
+        
         if ( hasPiecePotential ) {
+            if ( 
+                checkMate.cantMoveDueToCheck({ pieceSelectedPosition, pieceBoxPosition })
+            ) {
+                console.log( 'cant move there', pieceBoxElement )
+                this.setNotAllowed( pieceBoxElement )
+                
+                return
+            }
+            
             this.handleMovingThePiece({ pieceBoxElement, pieceElement })
             return
         }
@@ -39,7 +51,7 @@ export default {
                 this.setReady( pieceBoxElement )
                 this.setPiecePotentials( pieceBoxPosition )
             } else {
-                this.setNotAllowed( pieceBoxElement )    
+                this.setNotAllowed( pieceBoxElement ) 
             }
             
             return

@@ -8,14 +8,48 @@ import { chessConfig } from '../config/chessConfig.config.js'
 import { playerTurn } from '../services/playerTurn.service.js'
 import king from "./piecesDetermine/king.js"
 import knightKingHelpers from "./piecesDetermine/helpers/knightKing.helpers.js"
-import { checkMate } from "./checkMate.service.js"
 
 export const piecesDetermine = {
-    determinations: {},
+    determinationsSelector: 'currentDeterminations',
     
-    determine() {
+    _determinations: {
+        currentDeterminations: {},
+        potentialDeterminations: {}
+    },
+
+    get determinations() {
+        return this._determinations[ this.determinationsSelector ]
+    },
+    set determinations( value ) {
+        this._determinations[ this.determinationsSelector ] = value
+    },
+    
+    ///////////////////////////////
+
+    determine( pieceBoxPositionsObject = null ) {
         this.resetDeterminations()
         
+        for ( const { 
+            pieceSingleType,
+            isWhitePiece,
+            pieceBoxPosition 
+        } of ( 
+                pieceBoxPositionsObject ||
+                this.getCurrentPieceBoxPositions()
+            )
+        ) {
+            this.determinations[ pieceBoxPosition ] = {}
+
+            this[ pieceDetermineConfig[ pieceSingleType ] ]?.({ 
+                isWhitePiece,
+                pieceBoxPosition
+            })
+        }
+    },
+
+    getCurrentPieceBoxPositions() {
+        const currentPieceboxPositions = []
+
         for ( const pieceBoxElement of $$( chessConfig.chessPieceBoxSelector ) ) {
             const pieceElement = $$$( pieceBoxElement, chessConfig.chessPieceSelector )
             if ( !pieceElement ) continue
@@ -24,20 +58,18 @@ export const piecesDetermine = {
             const pieceType = pieceElement?.getAttribute( 'piece-type' ) ?? null
             const isWhitePiece = playerTurn.isWhitePiece( pieceType )
             const pieceSingleType = pieceType.replace( 'white_', '' ).replace( 'black_', '' )
-            
-            this.determinations[ pieceBoxPosition ] = {}
 
-            this[ pieceDetermineConfig[ pieceSingleType ] ]?.({ 
-                pieceBoxElement, 
-                pieceElement, 
-                pieceType,  
+            currentPieceboxPositions.push({
+                pieceBoxElement,
+                pieceElement,
+                pieceBoxPosition,
+                pieceType,
                 isWhitePiece,
-                pieceBoxPosition
+                pieceSingleType
             })
         }
-
-        checkMate.cleanKingsUnavailablePositions({ isWhite: true })
-        checkMate.cleanKingsUnavailablePositions({ isWhite: false })
+        
+        return currentPieceboxPositions
     },
 
     //////////////////////////

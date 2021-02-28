@@ -85,6 +85,17 @@ export const piecesRender = {
     },
     piecesDetermine() {
         piecesDetermine.determine()
+    },
+    getCurrentGameSetup() {
+        return $$( chessConfig.chessPieceSelector ).
+            map( pieceElement => ({
+                pieceType: pieceElement.getAttribute( 'piece-type' ),
+                piecePosition: pieceElement.closest( chessConfig.chessPieceBoxSelector ).getAttribute( 'id' )
+            })).
+            reduce( (obj, { pieceType, piecePosition } ) => {
+                obj[ piecePosition ] = pieceType
+                return obj
+            }, {})
     }
 }
 

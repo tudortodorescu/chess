@@ -1,72 +1,90 @@
-import { playerTurn } from "./playerTurn.service.js"
-import { chessConfig } from "../config/chessConfig.config.js"
+
 import { piecesDetermine } from "./piecesDetermine.service.js"
-import { $, $$ } from "../utils/utils.js"
+import { $, $$$, deepclone } from '../utils/utils.js'
+import { chessConfig } from "../config/chessConfig.config.js"
+import { playerTurn } from "./playerTurn.service.js"
+
 
 export const checkMate = {
-    isKingCurrentlyOnCheck() {
-        const kingPiecePosition = this.getKingPiecePosition()
-        const determinationPositions = this.getOpossitePiecesPositions()
+    cantMoveDueToCheck({ pieceSelectedPosition, pieceBoxPosition }) {
 
-        return this.isPiecePositionCheck({ determinationPositions, piecePosition: kingPiecePosition })
-    },
+        const pieceBoxElementSelected = $( `#${ pieceSelectedPosition }` )
+        const pieceElementSelected = $$$( pieceBoxElementSelected, chessConfig.chessPieceSelector )
+        
+        const clonedPieceElement = pieceElementSelected.cloneNode()
+        const tempPieceBoxElement = $( `#${ pieceBoxPosition }` )
+        
+        tempPieceBoxElement.append( clonedPieceElement )
+        pieceElementSelected.remove()
+        
+        //////////
 
-    cleanKingsUnavailablePositions({ isWhite = true }) {
-        const kingPiecePosition = this.getKingPiecePosition({ isWhite })
-        const determinationPositions = this.getOpossitePiecesPositions({ isWhite })
-        const kingsDeterminationPositions = Object.keys( piecesDetermine.determinations[ kingPiecePosition ] )
+        const isWhiteTurn = playerTurn.isWhiteTurn
+
+        let kingPiecePosition = checkMate.getKingPiecePosition({ isWhitePiece: isWhiteTurn })
+        if ( kingPiecePosition === pieceSelectedPosition ) {
+            kingPiecePosition = pieceBoxPosition
+        }
+
+        //////////
+
+        const newDeterminations = deepclone( piecesDetermine.determinations )
+        piecesDetermine.determinationsSelector = 'potentialDeterminations'
+        piecesDetermine.determinations = newDeterminations
+
+        delete piecesDetermine.determinations[ pieceSelectedPosition ]
+        piecesDetermine.determinations[ pieceBoxPosition ] = {}
     
-        const oppositeDeterminations = [ ...new Set( Object.values( determinationPositions ).
-            map( determinations => Object.keys( determinations ) ).flat() ) ]
+        const pieceBoxPositionsObject = Object.
+            keys( piecesDetermine.determinations ).
+            map( pieceBoxPosition_ => {
+            
+                //////////
+                
+                const pieceBoxElement = $( `#${ pieceBoxPosition_ }` )
+                const pieceElement = $$$( pieceBoxElement, chessConfig.chessPieceSelector )
+                const pieceType = pieceElement?.getAttribute( 'piece-type' ) ?? null
+                const isWhitePiece = playerTurn.isWhitePiece( pieceType )
+                const isBlackPiece = playerTurn.isBlackPiece( pieceType )
+                const pieceSingleType = pieceType.replace( 'white_', '' ).replace( 'black_', '' )
 
-        kingsDeterminationPositions.
-            filter( kingDeterminationPosition => {
-                return oppositeDeterminations.includes( kingDeterminationPosition )
-            }).
-            forEach( kingDeterminationPosition => {
-                delete piecesDetermine.determinations[ kingPiecePosition ][ kingDeterminationPosition ]
+                if (
+                    ( isWhiteTurn && !isBlackPiece ) ||
+                    ( !isWhiteTurn && !isWhitePiece )
+                ) {
+                    return null
+                }
+
+                return { 
+                    pieceSingleType,
+                    isWhitePiece,
+                    pieceBoxPosition: pieceBoxPosition_
+                }
             })
+            .filter( item => !!item)
+
+        piecesDetermine.determine( pieceBoxPositionsObject )
+
+        pieceBoxElementSelected.append( clonedPieceElement )
+
+        const result = [
+            ...new Set( Object.values( piecesDetermine.determinations ).
+                map( determinations => Object.keys( determinations ) ).flat() )
+        ].includes( kingPiecePosition )
+
+        piecesDetermine.determinationsSelector = 'currentDeterminations'
+        piecesDetermine.determine()
+
+        return result
     },
+    getKingPiecePosition({ isWhitePiece = true }) {
 
-    //////////////////////////////////
-
-    isPiecePositionCheck({ determinationPositions, piecePosition }) {
-        return Object.values( determinationPositions ).
-            reduce( ( isCheck, determinations ) => {
-                const isPositionOnCheck = Object.keys( determinations ).includes( piecePosition )
-                return isCheck || isPositionOnCheck
-            }, false)
-    },
-    getKingPiecePosition({ isWhite }) {
-
-        const kingPieceBoxElement = $( `[piece-type="${ isWhite ? 'white' : 'black' }_king"]` ).
+        const kingPieceBoxElement = $( `[piece-type="${ isWhitePiece ? 'white' : 'black' }_king"]` ).
             closest( chessConfig.chessPieceBoxSelector )
 
         const kingPiecePosition = kingPieceBoxElement.getAttribute( 'id' )
 
         return kingPiecePosition
-    },
-    getOpossitePiecesPositions({ isWhite }) {
-        return $$( chessConfig.chessPieceSelector ).
-            filter( pieceElement => {
-                const pieceType = pieceElement.getAttribute( 'piece-type' )
-                
-                if ( isWhite ) {
-                    return playerTurn.isBlackPiece( pieceType )
-                }
-                else {
-                    return playerTurn.isWhitePiece( pieceType )
-                }
-            }).
-            map( pieceElement => {
-                return pieceElement.
-                    closest( chessConfig.chessPieceBoxSelector ).
-                    getAttribute( 'id' )
-            })
-            .reduce( ( obj, piecePosition) => {
-                obj[ piecePosition ] = piecesDetermine.determinations[ piecePosition ]
-                return obj
-            }, {})
     }
 }
 
