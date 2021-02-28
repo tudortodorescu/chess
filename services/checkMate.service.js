@@ -13,6 +13,8 @@ export const checkMate = {
         
         const clonedPieceElement = pieceElementSelected.cloneNode()
         const tempPieceBoxElement = $( `#${ pieceBoxPosition }` )
+        const tempPieceElement = $$$( tempPieceBoxElement, chessConfig.chessPieceSelector )
+        if ( tempPieceElement ) document.body.append( tempPieceElement )
         
         tempPieceBoxElement.append( clonedPieceElement )
         pieceElementSelected.remove()
@@ -65,7 +67,12 @@ export const checkMate = {
 
         piecesDetermine.determine( pieceBoxPositionsObject )
 
+        ///////////////
+
         pieceBoxElementSelected.append( clonedPieceElement )
+        if ( tempPieceElement ) tempPieceBoxElement.append( tempPieceElement )
+        
+        //////////////////////
 
         const result = [
             ...new Set( Object.values( piecesDetermine.determinations ).

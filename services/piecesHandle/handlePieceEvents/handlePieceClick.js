@@ -6,15 +6,10 @@ import handlePieceMovingHelpers from '../helpers/handlePieceMoving.helpers.js'
 export default {
     handlePieceClick({ pieceBoxElement, pieceBoxPosition, pieceElement, pieceType }) {
         const { pieceSelectedPosition } = this
-        const hasPiecePotential = piecesDetermine.hasPiecePotential( pieceSelectedPosition, pieceBoxPosition )
         
-        if ( hasPiecePotential ) {
-            if ( 
-                checkMate.cantMoveDueToCheck({ pieceSelectedPosition, pieceBoxPosition })
-            ) {
-                console.log( 'cant move there', pieceBoxElement )
+        if ( piecesDetermine.hasPiecePotential( pieceSelectedPosition, pieceBoxPosition ) ) {
+            if ( checkMate.cantMoveDueToCheck({ pieceSelectedPosition, pieceBoxPosition }) ) {
                 this.setNotAllowed( pieceBoxElement )
-                
                 return
             }
             
