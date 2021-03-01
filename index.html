@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="img/favicon.png" />
 </head>
 <body>
-    <div id="table" class="chess-table">
+    <div class="chess-table">
         <div id="h8" class="piece-box black-box"></div>
         <div id="g8" class="piece-box white-box"></div>
         <div id="f8" class="piece-box black-box"></div>
@@ -81,6 +81,11 @@
         <div id="c1" class="piece-box black-box"></div>
         <div id="b1" class="piece-box white-box"></div>
         <div id="a1" class="piece-box black-box"></div>
+    </div>
+
+    <div class="chess-message">
+        <div class="black-wins check-mate-message fade-in"> Black Wins by check mate</div>
+        <div class="white-wins check-mate-message fade-in"> White Wins by check mate</div>
     </div>
 
     <script src="./app.js" defer type="module"></script>

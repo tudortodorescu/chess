@@ -1,6 +1,6 @@
 
 export const playerTurn = {
-    whosTurn: 'black',
+    whosTurn: 'white',
 
     get isWhiteTurn() {
         return this.whosTurn === 'white'

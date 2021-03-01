@@ -6,6 +6,8 @@ import { playerTurn } from "./playerTurn.service.js"
 
 
 export const checkMate = {
+    gameOver: false,
+
     cantMoveDueToCheck({ pieceSelectedPosition, pieceBoxPosition }) {
 
         const pieceBoxElementSelected = $( `#${ pieceSelectedPosition }` )
@@ -92,6 +94,63 @@ export const checkMate = {
         const kingPiecePosition = kingPieceBoxElement.getAttribute( 'id' )
 
         return kingPiecePosition
+    },
+
+    isCheckMate() {
+        const isWhiteTurn = playerTurn.isWhiteTurn
+
+        this.gameOver = Object.
+            keys( piecesDetermine.determinations ).
+            filter( pieceBoxPosition => {
+                const pieceBoxElement = $( `#${ pieceBoxPosition }` )
+                const pieceElement = $$$( pieceBoxElement, chessConfig.chessPieceSelector )
+                const pieceType = pieceElement?.getAttribute( 'piece-type' ) ?? null
+
+                return !(
+                    ( isWhiteTurn && !playerTurn.isWhitePiece( pieceType ) ) ||
+                    ( !isWhiteTurn && !playerTurn.isBlackPiece( pieceType ) )
+                )
+            }).
+            map( sourcePieceBoxPosition => {
+                return Object.
+                    keys( piecesDetermine.determinations[ sourcePieceBoxPosition ] ).
+                    map( destinationPieceBoxPosition => {
+                        return !this.cantMoveDueToCheck({ 
+                            pieceSelectedPosition: sourcePieceBoxPosition, 
+                            pieceBoxPosition: destinationPieceBoxPosition
+                        })
+                    })
+
+            }).
+            flat().
+            filter( item => !!item ).
+            length === 0
+
+        return this.gameOver
+    },
+
+    ///////////////////////////////
+
+    displayCheckMateMessage() {
+        playerTurn.isWhiteTurn ?
+            this.blackWinsMessage() :
+            this.whiteWinsMessage()
+    },
+    blackWinsMessage() {
+        const blackWinsElement = $( chessConfig.blackWinsSelector )
+        console.log( blackWinsElement )
+        blackWinsElement.style.display = 'block'
+    },
+    whiteWinsMessage() {
+        const whiteWinsElement = $( chessConfig.whiteWinsSelector )
+        whiteWinsElement.style.display = 'block'
+    },
+    resetCheckMateMessages() {
+        const blackWinsElement = $( chessConfig.blackWinsSelector )
+        const whiteWinsElement = $( chessConfig.whiteWinsSelector )
+
+        blackWinsElement.style.display = 'none'
+        whiteWinsElement.style.display = 'none'
     }
 }
 

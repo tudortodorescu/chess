@@ -3,6 +3,10 @@ import { piecesDetermine } from '../../piecesDetermine.service.js'
 
 export default {
     handlePieceMouseenter({ pieceBoxElement, pieceBoxPosition, pieceElement, pieceType }) {
+        if ( checkMate.gameOver ) {
+            return
+        }
+        
         if ( 
             this.isPieceSelected() && 
             this.isNotOnPieceSelected( pieceBoxPosition )

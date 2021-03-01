@@ -5,6 +5,10 @@ import handlePieceMovingHelpers from '../helpers/handlePieceMoving.helpers.js'
 
 export default {
     handlePieceClick({ pieceBoxElement, pieceBoxPosition, pieceElement, pieceType }) {
+        if ( checkMate.gameOver ) {
+            return
+        }
+
         const { pieceSelectedPosition } = this
         
         if ( piecesDetermine.hasPiecePotential( pieceSelectedPosition, pieceBoxPosition ) ) {
@@ -14,6 +18,10 @@ export default {
             }
             
             this.handleMovingThePiece({ pieceBoxElement, pieceElement })
+
+            if ( checkMate.isCheckMate() ) {
+                checkMate.displayCheckMateMessage()
+            }
             return
         }
 

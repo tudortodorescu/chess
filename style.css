@@ -5,7 +5,24 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(#b1b1b1, white);
+    margin: 0;
+    padding: 0;
 }
+
+@keyframes fadeIn {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease
+}
+
+/** ####################################### */
+
 .chess-table {
     height: 400px;
     width: 400px;
@@ -23,6 +40,21 @@ body {
     justify-content: center;
     align-items: center;
 }
+.piece {
+    width: 45px;    
+    height: 45px;
+}
+.piece-box-text {
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    font-size: 12px;
+    color: #444;
+    opacity: 0.9;
+}
+
+/** ####################################### */
 
 .piece-box.white-box {
     background: white;
@@ -30,7 +62,6 @@ body {
 .piece-box.black-box {
     background: gray;
 }
-
 .piece-box.piece-selected {
     background: yellow;
     cursor: pointer;
@@ -49,15 +80,69 @@ body {
     cursor: pointer;
 }
 
-img.piece {
-    width: 45px;    
-    height: 45px;
-}
-.position-text {
+/** #################################### */
+
+.chess-message .check-mate-message {
     position: absolute;
-    bottom: 0px;
-    right: 0px;
-    font-size: 12px;
-    color: #444;
-    opacity: 0.9;
+    width: 200px;
+    left: calc(-142px + 50vw);
+    top: calc(-10px + 50vh);
+    text-align: center;
+    padding: 10px 50px;
+}
+.chess-message .black-wins {
+    display: none;
+    background: black;
+    color: white;
+    box-shadow: 0 0 150px 75px white;
+}
+.chess-message .white-wins {
+    display: none;
+    background: white;
+    color: black;
+    box-shadow: 0 0 150px 75px black;
+}
+
+/** #################################### */
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+    .chess-table {
+        height: 240px;
+        width: 240px;
+    }
+    .piece-box {
+        width: 30px;
+        height: 30px;
+    }
+    img.piece {
+        width: 25px;    
+        height: 25px;
+    }
+    .chess-message .check-mate-message {
+        width: 150px;
+        top: calc(-15px + 50vh);
+        left: calc(-85px + 50vw);
+        font-size: 12px;
+        padding: 10px;
+    }
+}
+
+@media only screen 
+  and (min-device-width: 560px) 
+  and (max-device-width: 820px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    body {
+        padding: 50px 0;
+    }
+    .chess-message .check-mate-message {
+        width: 175px;
+        top: calc(35px + 50vh);
+        left: calc(-127.5px + 50vw);
+        font-size: 14px;
+        padding: 10px 40px;
+    }
 }

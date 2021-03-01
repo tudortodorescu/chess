@@ -21,7 +21,7 @@ export const piecesRender = {
     placePieceBoxNumbers() {
         $$( chessConfig.chessPieceBoxSelector ).map( pieceBoxElement => {
             const spanElement = document.createElement( 'span' )
-            spanElement.classList.add( 'position-text' )
+            spanElement.classList.add( 'piece-box-text' )
             spanElement.innerHTML = pieceBoxElement.getAttribute( 'id' )
             
             pieceBoxElement.append( spanElement )
