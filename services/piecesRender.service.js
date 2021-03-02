@@ -39,7 +39,7 @@ export const piecesRender = {
             const imgElement = document.createElement( 'img' )
             imgElement.classList.add( 'piece' )
             imgElement.setAttribute( 'piece-type', pieceType )
-            imgElement.src = `./img/${ pieceImageLocation }`
+            imgElement.src = `${ pieceImageLocation }`
 
             $( `#${ piecePosition }` ).append( imgElement )
         }
