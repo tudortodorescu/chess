@@ -26,7 +26,7 @@ export const piecesDetermine = {
     
     ///////////////////////////////
 
-    determine( pieceBoxPositionsObject = null ) {
+    generateDeterminations( pieceBoxPositionsObject = null ) {
         this.resetDeterminations()
         
         for ( const { 
