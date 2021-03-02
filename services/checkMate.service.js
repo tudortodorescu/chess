@@ -67,7 +67,7 @@ export const checkMate = {
             })
             .filter( item => !!item)
 
-        piecesDetermine.determine( pieceBoxPositionsObject )
+        piecesDetermine.generateDeterminations( pieceBoxPositionsObject )
 
         ///////////////
 
@@ -82,7 +82,7 @@ export const checkMate = {
         ].includes( kingPiecePosition )
 
         piecesDetermine.determinationsSelector = 'currentDeterminations'
-        piecesDetermine.determine()
+        piecesDetermine.generateDeterminations()
 
         return result
     },

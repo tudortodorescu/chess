@@ -21,7 +21,7 @@ export default {
         this.resetPieceSelected()
         
         playerTurn.changeTurn()
-        piecesDetermine.determine()
+        piecesDetermine.generateDeterminations()
         piecesRender.resetPiecesBoxListeners()
         piecesRender.addPiecesBoxListeners()
     }

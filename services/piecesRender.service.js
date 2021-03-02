@@ -84,7 +84,7 @@ export const piecesRender = {
         })
     },
     piecesDetermine() {
-        piecesDetermine.determine()
+        piecesDetermine.generateDeterminations()
     },
     getCurrentGameSetup() {
         return $$( chessConfig.chessPieceSelector ).
