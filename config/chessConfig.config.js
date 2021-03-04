@@ -5,6 +5,8 @@ export const chessConfig = {
     chessPieceSelector: '.piece',
     blackWinsSelector: '.chess-message .black-wins',
     whiteWinsSelector: '.chess-message .white-wins',
-    whitePlaysDown: true,
+    whitePlaysDown: false,
     useInitialGame: false
 }
+
+window.chessConfig = chessConfig

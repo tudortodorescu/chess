@@ -32,8 +32,6 @@ body {
 .piece-box {
     width: 50px;
     height: 50px;
-    color: white;
-    font-size: 8px;
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -45,7 +43,7 @@ body {
     height: 45px;
 }
 .piece-box-text {
-    display: none;
+    /* display: none; */
     position: absolute;
     bottom: 0px;
     right: 0px;

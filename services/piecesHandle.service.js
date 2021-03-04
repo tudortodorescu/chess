@@ -17,7 +17,7 @@ export const piecesHandle = {
         return pieceBoxPosition === this.pieceSelectedPosition 
     },
     isNotOnPieceSelected( pieceBoxPosition ) {
-        return pieceBoxPosition !== this.pieceSelectedPosition
+        return !this.isOnPieceSelected( pieceBoxPosition )
     },
 
     ///////////////////////

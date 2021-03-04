@@ -86,6 +86,9 @@ export const piecesRender = {
     piecesDetermine() {
         piecesDetermine.generateDeterminations()
     },
+
+    /////////////////////
+
     getCurrentGameSetup() {
         return $$( chessConfig.chessPieceSelector ).
             map( pieceElement => ({
