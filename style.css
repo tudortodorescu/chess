@@ -7,7 +7,7 @@ body {
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background: linear-gradient(#b1b1b1, white);
+    background: #312e2b;
     margin: 0;
     padding: 0;
 }
@@ -27,7 +27,6 @@ body {
     height: 400px;
     width: 400px;
     display: flex;
-    border: 3px solid black;
 }
 .piece-box {
     width: 50px;
@@ -39,29 +38,35 @@ body {
     align-items: center;
 }
 .piece {
-    width: 45px;    
+    width: 40px;    
     height: 45px;
 }
 .piece-box-text {
     /* display: none; */
     position: absolute;
-    bottom: 0px;
-    right: 0px;
-    font-size: 12px;
-    color: #444;
-    opacity: 0.9;
+    bottom: 1px;
+    right: 2px;
+    font-size: 8px;
+    opacity: 0.7;
+    font-family: Arial;
+}
+.black-box .piece-box-text {
+    color: #eeeed2;
+}
+.white-box .piece-box-text {
+    color: #769656;
 }
 
 /** ####################################### */
 
 .piece-box.white-box {
-    background: white;
+    background: #eeeed2;
 }
 .piece-box.black-box {
-    background: gray;
+    background: #769656;
 }
 .piece-box.piece-selected {
-    background: yellow;
+    background: #f6f669;
     cursor: pointer;
 }
 .piece-box.piece-ready {
